@@ -1,0 +1,38 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1120px;
+  margin: 0 auto;
+  padding: 50px;
+}
+
+.add {
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  height: 500px;
+  border: 2px solid #030003;
+  margin: 0 auto;
+}
+
+.close {
+  background: #7e4442;
+}
+
+.open {
+  background: #177e4d;
+}
+
+.start {
+  background: #0d537e;
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=style.css.map */
