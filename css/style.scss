@@ -11,6 +11,7 @@
 .add {
   display: flex;
   flex-wrap: wrap;
+
   width: 500px;
   height: 500px;
   border: 2px solid #030003;
@@ -29,6 +30,10 @@
   align-items: center;
   justify-content: center;
 }
-.button {
-
+.text-content{
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
