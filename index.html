@@ -9,14 +9,26 @@
 
 <div class="container">
   <button class="start-button" type="button">START</button>
-  <button hidden  class="button" type="button">NEXT</button>
-  <div class="live"> </div>
-
+  <div class="choose">
+    <label class="label" for="checkbox">Уровень сложности </label>
+    <select class="select" name="" id="checkbox">
+      <option value="1">Лёгкий</option>
+      <option value="2">Средний</option>
+      <option value="3">Сложный</option>
+      <option value="4">Мастер</option>
+      <option value="4">Чемпион</option>
+      <option value="4">Ты лучший</option>
+    </select>
+  </div>
+  <button hidden class="button" type="button">NEXT</button>
+  <div id="one">
+    <div class="live"></div>
+    <div class="current-level">Текущий уровень</div>
+    <div class="balls">Ваши баллы:</div>
+    <ul id="list"></ul>
+  </div>
   <div class="add">
   </div>
-
-
-
 </div>
 
 <script src="script.js"></script>

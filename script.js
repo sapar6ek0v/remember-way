@@ -3,9 +3,21 @@ const startBtn = document.querySelector('.start-button')
 const container = document.querySelector('.container')
 const nextBtn = document.querySelector('.button')
 const minLive = document.querySelector('.live')
-
+const currentLev = document.querySelector('.current-level')
+const difficult = document.querySelector('#checkbox')
+const balls = document.querySelector('.balls')
+const list = document.querySelector('#list')
+const valList = document.createElement('li')
+list.append(valList)
+balls.textContent = `Ваши баллы:`
+minLive.textContent = `LIVE`
 let curLevel = 0
+let level = 0
 let live = 3
+let gamePaused = true
+let counts = 0
+let levelCounts = 0
+
 
 const level1 = [
     [2,0,0,0,0],
@@ -14,7 +26,6 @@ const level1 = [
     [0,0,1,1,1],
     [0,0,0,0,3],
 ]
-
 const level2 = [
     [0,1,1,1,2,0],
     [0,1,0,0,0,0],
@@ -23,7 +34,6 @@ const level2 = [
     [0,1,1,1,0,0],
     [0,3,0,0,0,0],
 ]
-
 const level3 = [
     [0,2,1,1,1,1,1],
     [0,0,0,0,0,0,1],
@@ -33,11 +43,34 @@ const level3 = [
     [0,0,1,0,0,0,0],
     [0,0,1,1,1,1,3],
 ]
+const level4 = [
+    [0,0,0,0,0,2,1,0],
+    [0,0,0,0,0,0,1,0],
+    [1,1,1,1,1,1,1,0],
+    [1,0,0,0,0,0,0,0],
+    [1,1,1,0,0,0,0,0],
+    [0,0,1,1,1,1,1,0],
+    [0,0,0,0,0,0,1,0],
+    [0,0,3,1,1,1,1,0],
+]
+const level5 = [
+    [2,1,0,0,0,0,0,0,0],
+    [0,1,1,1,1,0,0,0,0],
+    [0,0,0,0,1,0,0,0,0],
+    [0,0,1,1,1,0,0,0,0],
+    [0,0,1,0,0,0,0,0,0],
+    [0,0,1,1,1,1,1,0,0],
+    [0,0,0,0,0,0,1,0,0],
+    [0,1,1,1,1,1,1,0,0],
+    [0,3,0,0,0,0,0,0,0],
+]
 
 const levels = {
     0: level1,
     1: level2,
     2: level3,
+    3: level4,
+    4: level5,
 }
 
 const clearAdd = () => {
@@ -46,13 +79,25 @@ const clearAdd = () => {
 const levelUp = (e) => {
     e.stopPropagation()
     clearAdd()
-    add.innerHTML = `<div class="text-content"> Уровень пройден !</div>`
+    level++
+    add.innerHTML = `<div class="text-content">Уровень ${level} пройден !</div>`
     nextBtn.hidden = false
     startBtn.hidden = true
+    // container.addEventListener('mouseover', gameOver)
     curLevel++
-    container.removeEventListener('mouseover', gameOver)
+    levelCounts = 0
+    gamePaused = true
+    valList.textContent = `Лучший результат: ${counts += +difficult.value}`
+    if (curLevel + 2 ) {
+        live += 1
+    } if ( counts > 20 && confirm('Хотите ли обменять ваши 20 баллы на 1 жизнь')) {
+        counts -= 20
+        live += 1
+    }
+
 }
 const startGame = () => {
+    gamePaused = false
     Array.from(add.children).forEach(it => {
         it.classList.remove('close')
         it.classList.remove('open')
@@ -60,16 +105,31 @@ const startGame = () => {
     document.querySelector('.begin').addEventListener('mouseover', () => {
         document.querySelector('.finish').addEventListener('mouseover', levelUp)
     })
-    // minLv()
 }
 
 const gameOver = () => {
+    if (gamePaused) {
+        return ;
+    }
+    counts -= levelCounts + 2
+    levelCounts = 0
+    live--
+    if (live <=0 ) {
+        curLevel = 0
+        live = 3
+        counts = 0
+        alert('Вы должны начать заново')
+    }
+
+    minLive.textContent = `LIVE ${live}`
+    balls.textContent = `Ваши баллы: ${counts}`
+    valList.textContent = `Лучший результат: ${counts += +difficult.value}`
     clearAdd()
     fillOut()
+    gamePaused =true
 }
 const addRed = block => {
     block.classList.add('close')
-
     block.addEventListener('mouseover' , gameOver)
 }
 
@@ -78,6 +138,23 @@ const addGreen = block => {
     block.addEventListener('mouseover', (e) => {
         e.stopPropagation()
         block.classList.add('open')
+    })
+    block.addEventListener('mouseover', function countPoints () {
+        if (!gamePaused) {
+            counts += +difficult.value
+            levelCounts  += +difficult.value
+            // add.addEventListener('mouseover', () => {
+            //     valList.innerHTML = `<div> Рейтинг очков </div>
+            //             ${counts += +difficult.value}`
+            // })
+            // valList.textContent = `Лучший результат${counts += +difficult.value}`
+            balls.textContent = `Ваши баллы: ${counts}`
+            block.removeEventListener('mouseover', countPoints )
+            if (difficult.checked) {
+                counts += 1
+            }
+
+        }
     })
 }
 
@@ -88,23 +165,27 @@ const addStart = block => {
         e.stopPropagation()
         container.addEventListener('mouseover', gameOver, {once:true})
     })
-    // minLv()
+
 }
 
 const addFinish = block => {
     block.classList.add('start', 'finish')
     block.textContent = 'F'
-    // block.addEventListener('mouseover', levelUp )
 }
 
-// const minLv = () => {
-//     if (Array.from(levels.children).map(it => it === 0)) {
-//         return minLive.textContent = `Live ${live--}`
-//     }
-// }
-
 const fillOut = () =>{
+    currentLev.textContent = `Ваш уровень ${curLevel + 1}`
     add.innerHTML = ''
+    if (!levels[curLevel]) {
+        alert("Ты прошёл мою игру")
+        curLevel = 0
+        // live = 3
+        // counts = 0
+        // minLive.textContent = `LIVE ${live}`
+        // balls.textContent = `Ваши баллы: ${counts}`
+        fillOut()
+        return;
+    }
     const box = `${100 / levels[curLevel][0].length}%`
 
     levels[curLevel].forEach( row => {
@@ -112,7 +193,10 @@ const fillOut = () =>{
             const block = document.createElement('div')
             block.style.width = box
             block.style.height = box
-            block.style.border = '2px solid black'
+            block.classList.add('square')
+            if ( difficult.value !== '2' && difficult.value !== '4' ) {
+                block.classList.add('square-border')
+            }
             if ( it === 0 ) {
                 addRed(block)
             } else if ( it === 1 ) {
@@ -130,6 +214,7 @@ const fillOut = () =>{
             document.querySelector('.finish').removeEventListener('mouseover', levelUp)
         })
     })
+
 }
 fillOut()
 
@@ -140,4 +225,30 @@ nextBtn.addEventListener('click', () => {
     fillOut()
     startBtn.hidden = false
     nextBtn.hidden = true
+    // nextBtn.addEventListener('click', ()=> {
+    //     if (levels[curLevel][-1]) {
+    //         clearAdd()
+    //         fillOut()
+    //     }
+    // })
 })
+
+difficult.addEventListener('change', () => {
+    const squares = Array.from(document.querySelectorAll('.square'))
+    if ( difficult.value === '1' ) {
+        add.classList.remove('cursor')
+        squares.forEach(it => it.classList.add('square-border'))
+    } else if ( difficult.value === '2' ) {
+        add.classList.remove('cursor')
+        squares.forEach(it => it.classList.remove('square-border'))
+    } else if ( difficult.value === '3' ) {
+        squares.forEach(it => it.classList.add('square-border'))
+        add.classList.add('cursor')
+    } else if ( difficult.value === '4' ) {
+        squares.forEach(it => it.classList.remove('square-border'))
+        add.classList.add('cursor')
+    }
+})
+
+
+
