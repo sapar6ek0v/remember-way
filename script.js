@@ -10,7 +10,7 @@ const list = document.querySelector('#list')
 // const valList = document.createElement('li')
 // list.append(valList)
 balls.textContent = `Ваши баллы:`
-minLive.textContent = `LIVE`
+
 let points = 0
 let curLevel = 0
 let level = 0
@@ -18,6 +18,7 @@ let live = 3
 let gamePaused = true
 let counts = 0
 let levelCounts = 0
+minLive.textContent = `LIVE ${live}`
 
 
 const level1 = [
@@ -87,6 +88,8 @@ const levelUp = (e) => {
     if ( counts > 20 && confirm('Хотите ли обменять ваши 20 баллы на 1 жизнь')) {
         counts -= 20
         live += 1
+        minLive.textContent = `LIVE: ${live}`
+        balls.textContent =`ВАШИ БАЛЛЫ: ${counts}`
     }
     e.stopPropagation()
     clearAdd()
