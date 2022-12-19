@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Game - block</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Remember Way</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="aside">
+        <div class="aside__header">
+          <div>
+            <button type="button" class="start__btn">Start</button>
+            <button hidden type="button" class="next__btn">Next</button>
+          </div>
 
-<div class="container">
-  <button class="start-button" type="button">START</button>
-  <div class="choose">
-    <label class="label" for="checkbox">Уровень сложности </label>
-    <select class="select" name="" id="checkbox">
-      <option value="1">Лёгкий</option>
-      <option value="2">Средний</option>
-      <option value="3">Сложный</option>
-      <option value="4">Мастер</option>
-    </select>
-  </div>
-  <button hidden class="button" type="button">NEXT</button>
-  <div id="one">
-    <div class="live"></div>
-    <div class="current-level">Текущий уровень</div>
-    <div class="balls">Ваши баллы:</div>
-    <ul id="list"></ul>
-  </div>
-  <div class="add">
-  </div>
-</div>
+          <div class="select__wrapper">
+            <label class="select__label" for="checkbox">Level</label>
+            <select class="select__options" name="checkbox">
+              <option value="1">Easy</option>
+              <option value="2">Middle</option>
+              <option value="3">Difficult</option>
+              <option value="4">Master</option>
+            </select>
+          </div>
+        </div>
 
-<script src="script.js"></script>
-</body>
+        <div class="navbar">
+          <div class="navbar__live-title"></div>
+          <div class="navbar__points">Your points:</div>
+          <ul class="navbar__list"></ul>
+        </div>
+      </div>
+
+      <div class="remember-way__wrapper">
+        <div class="remember-way__current-level">Current Level</div>
+        <div class="remember-way__container"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>
