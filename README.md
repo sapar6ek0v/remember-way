@@ -1,4 +1,4 @@
-## Game Remember Way
+## Game "Remember Way"
 
 In the project, I used JS, HTML ans CSS(SCSS).
 
