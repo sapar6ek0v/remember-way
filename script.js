@@ -3,13 +3,12 @@ const container = document.querySelector('.container');
 const startBtn = document.querySelector('.start__btn');
 const nextBtn = document.querySelector('.next__btn');
 
-const minLive = document.querySelector('.navbar__live-title');
+const live = document.querySelector('.navbar__live-title');
 const points = document.querySelector('.navbar__points');
 const list = document.querySelector('.navbar__list');
-const difficult = document.querySelector('.select__options');
+const difficultyLevel = document.querySelector('.select__options');
 
-//TODO:
-const add = document.querySelector('.remember-way__container');
+const gameContainer = document.querySelector('.remember-way__container');
 const currentLev = document.querySelector('.remember-way__current-level');
 
 let allPoints = 0;
@@ -20,7 +19,7 @@ let levelCounts = 0;
 let isGamePaused = true;
 
 points.textContent = 'Your points: 0';
-minLive.textContent = `Your lives: ${lives}`;
+live.textContent = `Your lives: ${lives}`;
 
 const level1 = [
   [2, 0, 0, 0, 0],
@@ -83,42 +82,40 @@ const levels = {
 const pointCounter = () => {
   if (counts > allPoints) {
     allPoints = counts;
-    list.textContent = `Best result: ${allPoints}`;
+    const li = document.createElement('li');
+    li.textContent = `Best result: ${allPoints}`;
+    list.appendChild(li);
   }
 };
 
 const handleClearWay = () => {
-  add.innerHTML = '';
+  gameContainer.innerHTML = '';
 };
 
 const levelUp = (event) => {
   event.stopPropagation();
+
   if (counts > 20 && confirm('Do you want to exchange your 20 points for 1 life?')) {
     counts -= 20;
     lives += 1;
-    minLive.textContent = `Your lives: ${lives}`;
+    live.textContent = `Your lives: ${lives}`;
     points.textContent = `Your points: ${counts}`;
   }
 
   handleClearWay();
+
   curLevel++;
-  add.innerHTML = `<div class="remember-way__level-title">Level ${curLevel} passed successfully!</div>`;
+  gameContainer.innerHTML = `<div class="remember-way__level-title">Level ${curLevel} passed successfully!</div>`;
   nextBtn.hidden = false;
   startBtn.hidden = true;
   levelCounts = 0;
   isGamePaused = true;
-  // if  ( lives < 3 || curLevel > 0 ) {
-  //     difficult.disabled = true
-  // }
-  // if (curLevel + 2) {
-  //   lives += 1;
-  // }
 };
 
 const startGame = () => {
   isGamePaused = false;
 
-  Array.from(add.children).forEach((it) => {
+  Array.from(gameContainer.children).forEach((it) => {
     it.classList.remove('close');
     it.classList.remove('open');
   });
@@ -130,7 +127,7 @@ const startGame = () => {
 
 const gameOver = () => {
   if (lives < 3 || curLevel > 0) {
-    difficult.disabled = true;
+    difficultyLevel.disabled = true;
   }
 
   if (isGamePaused) {
@@ -140,19 +137,17 @@ const gameOver = () => {
   counts -= levelCounts + 2;
   levelCounts = 0;
   lives--;
+
   if (lives <= 0) {
     pointCounter();
     curLevel = 0;
     lives = 3;
     counts = 0;
-    difficult.disabled = false;
+    difficultyLevel.disabled = false;
     alert('You have to start from beginning!');
   }
-  // if ( counts < levelCounts ) {
-  //     valList.textContent = `Лучший результат: ${counts += +difficult.value}`
-  //     valList.textContent = `${counts = levelCounts}`
-  // }
-  minLive.textContent = `Your lives: ${lives}`;
+
+  live.textContent = `Your lives: ${lives}`;
   points.textContent = `Your points: ${counts}`;
 
   handleClearWay();
@@ -160,66 +155,62 @@ const gameOver = () => {
   isGamePaused = true;
 };
 
-const addRed = (block) => {
+const addRedBlock = (block) => {
   block.classList.add('close');
   block.addEventListener('mouseover', gameOver);
 };
 
-const addGreen = (block) => {
+const addGreenBlock = (block) => {
   block.classList.add('open');
-  block.addEventListener('mouseover', (e) => {
-    e.stopPropagation();
+
+  block.addEventListener('mouseover', (event) => {
+    event.stopPropagation();
     block.classList.add('open');
   });
+
   block.addEventListener('mouseover', function countPoints() {
     if (!isGamePaused) {
-      counts += +difficult.value;
-      levelCounts += +difficult.value;
-      // add.addEventListener('mouseover', () => {
-      //     valList.innerHTML = `<div> Рейтинг очков </div>
-      //             ${counts += +difficult.value}`
-      // })
-      // valList.textContent = `Лучший результат${counts += +difficult.value}`
+      counts += +difficultyLevel.value;
+      levelCounts += +difficultyLevel.value;
+
       points.textContent = `Your points: ${counts}`;
-      // valList.textContent = `Лучший результат: ${counts += +difficult.value}`
 
       block.removeEventListener('mouseover', countPoints);
-      if (difficult.checked) {
+
+      if (difficultyLevel.checked) {
         counts += 1;
       }
     }
   });
 };
 
-const addStart = (block) => {
+const handleStartBlock = (block) => {
   block.classList.add('start', 'begin');
   block.textContent = 'S';
-  block.addEventListener('mouseover', (e) => {
-    e.stopPropagation();
+  block.addEventListener('mouseover', (event) => {
+    event.stopPropagation();
     container.addEventListener('mouseover', gameOver, { once: true });
   });
 };
 
-const addFinish = (block) => {
+const handleFinishBlock = (block) => {
   block.classList.add('start', 'finish');
   block.textContent = 'F';
 };
 
 const fillOut = () => {
   currentLev.textContent = `Your level ${curLevel + 1}`;
-  add.innerHTML = '';
+  gameContainer.innerHTML = '';
+
   if (!levels[curLevel]) {
     pointCounter();
     alert('You passed game! Congrats!!!');
     curLevel = 0;
-    difficult.disabled = false;
-    // lives = 3
-    // counts = 0
-    // minLive.textContent = `LIVE ${lives}`
-    // points.textContent = `Ваши баллы: ${counts}`
+    difficultyLevel.disabled = false;
     fillOut();
     return;
   }
+
   const box = `${100 / levels[curLevel][0].length}%`;
 
   levels[curLevel].forEach((row) => {
@@ -228,58 +219,55 @@ const fillOut = () => {
       block.style.width = box;
       block.style.height = box;
       block.classList.add('square');
-      if (difficult.value !== '2' && difficult.value !== '4') {
+
+      if (difficultyLevel.value !== '2' && difficultyLevel.value !== '4') {
         block.classList.add('square-border');
       }
+
       if (it === 0) {
-        addRed(block);
+        addRedBlock(block);
       } else if (it === 1) {
-        addGreen(block);
+        addGreenBlock(block);
       } else if (it === 2) {
-        addStart(block);
+        handleStartBlock(block);
       } else if (it === 3) {
-        addFinish(block);
+        handleFinishBlock(block);
       }
-      add.append(block);
+
+      gameContainer.append(block);
     });
   });
+
   Array.from(document.querySelectorAll('.close')).forEach((it) => {
     it.addEventListener('mouseover', () => {
       document.querySelector('.finish').removeEventListener('mouseover', levelUp);
     });
   });
 };
+
 fillOut();
 
-startBtn.addEventListener('click', () => {
-  startGame();
-});
+startBtn.addEventListener('click', () => startGame());
 
 nextBtn.addEventListener('click', () => {
   fillOut();
   startBtn.hidden = false;
   nextBtn.hidden = true;
-  // nextBtn.addEventListener('click', ()=> {
-  //     if (levels[curLevel][-1]) {
-  //         handleClearWay()
-  //         fillOut()
-  //     }
-  // })
 });
 
-difficult.addEventListener('change', () => {
+difficultyLevel.addEventListener('change', () => {
   const squares = Array.from(document.querySelectorAll('.square'));
-  if (difficult.value === '1') {
-    add.classList.remove('cursor');
+  if (difficultyLevel.value === '1') {
+    gameContainer.classList.remove('no-cursor');
     squares.forEach((it) => it.classList.add('square-border'));
-  } else if (difficult.value === '2') {
-    add.classList.remove('cursor');
+  } else if (difficultyLevel.value === '2') {
+    gameContainer.classList.remove('no-cursor');
     squares.forEach((it) => it.classList.remove('square-border'));
-  } else if (difficult.value === '3') {
+  } else if (difficultyLevel.value === '3') {
     squares.forEach((it) => it.classList.add('square-border'));
-    add.classList.add('cursor');
-  } else if (difficult.value === '4') {
+    gameContainer.classList.add('no-cursor');
+  } else if (difficultyLevel.value === '4') {
     squares.forEach((it) => it.classList.remove('square-border'));
-    add.classList.add('cursor');
+    gameContainer.classList.add('no-cursor');
   }
 });
