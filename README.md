@@ -50,7 +50,7 @@ JS, HTML, SCSS.
 1. To run a project locally, first clone the repo
 
    ```sh
-   git clone https://github.com/sapar6ek0v/cinema.git
+   git clone https://github.com/sapar6ek0v/remember_way.git
    ```
 
 2. Run the project locally
