@@ -6,7 +6,7 @@ A simple game where you just need to memorize the path and go through it from st
 
 ## Built With
 
-JS, HTML, CSS.
+JS, HTML, SCSS.
 
 ## Features
 
