@@ -29,7 +29,7 @@ JS, HTML, CSS.
 
 - Choose level that you want
 
-<img src="public/images/levels.png" width="800" alt="Levels" />
+<img src="public/images/remember_way_levels.png" width="800" alt="Levels" />
 
 - Here you can see lives, points and you best results. And Each block gives you points(depends on level).And if you go beyond the green blocks, then you lose.(Sometimes blocks and even the cursor will not be visible depending on the level)
 
