@@ -11,9 +11,9 @@ JS, HTML, SCSS.
 ## Features
 
 - Remember the path from beginning to end and repeat this path as well.
-- Scoring
 - Choice of several levels of complexity
-- There are only 5 levels
+- Scoring
+- 5 levels with increasing difficulty
 
 ## Demo
 
@@ -53,8 +53,14 @@ JS, HTML, SCSS.
    git clone https://github.com/sapar6ek0v/remember_way.git
    ```
 
-2. Run the project locally
+2. Go to the project directory
 
+   ```sh
+   cd remember_way
+
+2. Open index.html, run project with Live Server.
+
+   
 ## Feedback
 
 If you have any feedback, please reach out to me at eldiiarsparbekov03@gmail.com
