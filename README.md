@@ -11,8 +11,8 @@ JS, HTML, SCSS.
 ## Features
 
 - Remember the path from beginning to end and repeat this path as well.
-- Scoring
 - Choice of several levels of complexity
+- Scoring
 - 5 levels with increasing difficulty
 
 ## Demo
