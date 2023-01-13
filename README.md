@@ -13,7 +13,7 @@ JS, HTML, SCSS.
 - Remember the path from beginning to end and repeat this path as well.
 - Scoring
 - Choice of several levels of complexity
-- There are only 5 levels
+- 5 levels with increasing difficulty
 
 ## Demo
 
